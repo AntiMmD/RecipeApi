@@ -1,0 +1,21 @@
+FROM python:3.13-slim
+LABEL maintainer="IcePack"
+ENV PYTHONUNBUFFERED=1 
+
+COPY ./requirements.txt /tmp/requirements.txt
+COPY ./recipe /recipe
+
+WORKDIR /recipe
+EXPOSE 6000
+RUN python -m venv /ViPy && \
+    /ViPy/bin/pip install -i https://mirror-pypi.runflare.com/simple --upgrade pip && \
+    /ViPy/bin/pip install -i https://mirror-pypi.runflare.com/simple -r /tmp/requirements.txt && \
+    rm -rf /tmp && \
+    adduser \
+        --disabled-password \
+        --no-create-home \
+        django-user
+      
+ENV PATH="/ViPy/bin:$PATH"
+
+USER django-user

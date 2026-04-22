@@ -1,0 +1,10 @@
+services:
+  recipe:
+    build:
+      context: .
+    ports:
+      - "7070:7070"
+    volumes:
+      - ./recipe:/recipe
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:7070"
